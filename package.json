@@ -1,0 +1,12 @@
+{
+  "name": "prac11-multi-container-task-manager",
+  "version": "1.0.0",
+  "description": "Practical 11: Multi-Container Deployment with Docker Compose",
+  "scripts": {
+    "start": "npm --prefix backend start",
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend run dev"
+  },
+  "author": "Bhavya Durgani (D25CS112)",
+  "license": "ISC"
+}

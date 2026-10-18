@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Database Service (Official MongoDB image)
+  mongodb:
+    image: mongo:latest
+    container_name: task-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      # Supplementary Problem 3: Named volume for data persistence across container restarts
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  # Backend Service (Node.js / Express API)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: task-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/taskdb
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  # Frontend Service (React / Vite Task Management UI)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: task-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# Named volumes
+volumes:
+  mongo-data:
+    driver: local
+
+# Bridge Network enabling container-to-container DNS resolution by service name
+networks:
+  app-network:
+    driver: bridge

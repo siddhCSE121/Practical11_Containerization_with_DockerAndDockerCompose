@@ -1,0 +1,8 @@
+# Supplementary Problem 1: Exclude node_modules and .env from build context
+node_modules
+.env
+npm-debug.log*
+.git
+.gitignore
+Dockerfile
+.dockerignore
